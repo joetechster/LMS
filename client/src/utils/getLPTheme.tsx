@@ -21,16 +21,16 @@ declare module "@mui/material/styles/createPalette" {
 }
 
 export const brand = {
-  50: "#F0F7FF",
-  100: "#CEE5FD",
-  200: "#9CCCFC",
-  300: "#55A6F6",
-  400: "#0A66C2",
-  500: "#0959AA",
-  600: "#064079",
-  700: "#033363",
-  800: "#02294F",
-  900: "#021F3B",
+  50: "#111111",
+  100: "#111111",
+  200: "#111111",
+  300: "#111111",
+  400: "#111111",
+  500: "#111111",
+  600: "#111111",
+  700: "#111111",
+  800: "#111111",
+  900: "#111111",
 };
 
 export const secondary = {
@@ -302,7 +302,7 @@ export default function getLPTheme(mode: PaletteMode): ThemeOptions {
           root: ({ theme, ownerState }) => ({
             boxSizing: "border-box",
             boxShadow: "none",
-            borderRadius: "10px",
+            borderRadius: "20px",
             textTransform: "none",
             "&:active": {
               transform: "scale(0.98)",
@@ -315,7 +315,7 @@ export default function getLPTheme(mode: PaletteMode): ThemeOptions {
             }),
             ...(ownerState.variant === "contained" &&
               ownerState.color === "primary" && {
-                color: brand[50],
+                color: "#fff",
                 background: brand[500],
                 backgroundImage: `linear-gradient(to bottom, ${brand[400]}, ${brand[600]})`,
                 boxShadow: `inset 0 1px ${alpha(brand[300], 0.4)}`,
@@ -327,7 +327,7 @@ export default function getLPTheme(mode: PaletteMode): ThemeOptions {
                 },
               }),
             ...(ownerState.variant === "outlined" && {
-              backgroundColor: alpha(brand[300], 0.1),
+              backgroundColor: "transparent",
               borderColor: brand[300],
               color: brand[500],
               "&:hover": {

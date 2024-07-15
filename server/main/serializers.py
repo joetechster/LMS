@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, Course, Assessment, Grade
 from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,7 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
       model = CustomUser
       fields = '__all__'
 
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -27,17 +26,27 @@ class LoginSerializer(serializers.Serializer):
         if not attrs.get('password'):
             raise serializers.ValidationError('Password is required.')
         return attrs
-      
+
 class CustomTokenSerializer(serializers.Serializer):
-    token = serializers.CharField(source='key')
-    user = UserSerializer()
+  token = serializers.CharField(source='key')
+  user = UserSerializer()
+  
+class CourseSerializer(serializers.ModelSerializer): 
+  instructor = UserSerializer()
+  students = UserSerializer(many=True)
+  class Meta: 
+    model = Course 
+    fields = "__all__"
+
+class AssessmentSerializer(serializers.ModelSerializer): 
+  course = CourseSerializer()
+  class Meta: 
+    model = Assessment 
+    fields = "__all__"
     
-class UserRelatedField(serializers.RelatedField):
-  queryset = CustomUser.objects.all()
-   
-  def to_representation(self, value):
-    user = UserSerializer(value)
-    return user.data
-     
-  def to_internal_value(self, value):
-    return CustomUser.objects.get(pk=value)
+class GradeSerializer(serializers.ModelSerializer): 
+  student = UserSerializer()
+  assessment = AssessmentSerializer()
+  class Meta:
+    model = Grade
+    fields = "__all__"

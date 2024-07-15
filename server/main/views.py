@@ -3,11 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import UserSerializer, CustomTokenSerializer, LoginSerializer
+from .serializers import UserSerializer, CustomTokenSerializer, LoginSerializer, CourseSerializer, AssessmentSerializer, GradeSerializer
 from .permissions import IsOwnerOrIsAdminOrReadOnly
 from rest_framework.authentication import TokenAuthentication
-
+from .models import Course, Assessment
 from django.contrib.auth import authenticate
+from django.db.models import Q
 
 class SignUpView(APIView):
   def post(self, request):
@@ -34,3 +35,29 @@ class SignInView(APIView):
         return Response(serializer.data)
       else: 
         return Response("Wrong username or password", status=400)
+      
+class CourseViewSet(viewsets.ModelViewSet): 
+  queryset = Course.objects.all()
+  serializer_class = CourseSerializer
+  permission_classes = [IsAuthenticated]
+  
+  def get_queryset(self):
+    all = self.request.GET.get("all")
+    if not all:
+      return self.request.user.courses_attending.all()
+    return super().get_queryset()
+
+class AssessmentViewSet(viewsets.ModelViewSet): 
+  serializer_class = AssessmentSerializer
+  permission_classes = [IsAuthenticated]
+  
+  def get_queryset(self):
+    assessments = Assessment.objects.filter(~Q(scores__student=self.request.user)).all()
+    return assessments
+
+class GradeViewSet(viewsets.ModelViewSet): 
+  serializer_class = GradeSerializer
+  permission_classes = [IsAuthenticated]
+  
+  def get_queryset(self):
+    return self.request.user.grades.all()
