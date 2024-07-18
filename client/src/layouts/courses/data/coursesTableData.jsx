@@ -8,18 +8,27 @@ import { useContext, useLayoutEffect, useState } from "react";
 import { Avatar, Button } from "@mui/material";
 import { getUser } from "utils/auth";
 import { SearchContext } from "context/index";
+import { useAlert } from "react-alert";
 
-export default function data(fetch) {
+export default function data(fetch, update, setUpdate) {
   const [courses, setCourses] = useState([]);
   const { search } = useContext(SearchContext);
   const user = getUser().user;
+  const alert = useAlert();
 
   useLayoutEffect(() => {
     fetch(setCourses);
-    // fetch_authenticated(`/course`)
-    //   .then((res) => res.json())
-    //   .then((courses) => setCourses(courses));
-  }, []);
+  }, [update]);
+
+  const handleEnroll = async (id) => {
+    const res = await fetch_authenticated(`enroll/${id}`, { method: "POST" });
+    if (res.status === 200) {
+      setUpdate((p) => ++p);
+      alert.show("Successfully enrolled", { type: "success" });
+    } else {
+      alert.show("Something went wrong", { type: "error" });
+    }
+  };
 
   const Instructor = ({ instructor }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
@@ -62,7 +71,12 @@ export default function data(fetch) {
             Enrolled
           </MDTypography>
         ) : (
-          <Button variant="contained" size="small" sx={{ color: "#fff" }}>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ color: "#fff" }}
+            onClick={() => handleEnroll(course.id)}
+          >
             Enroll
           </Button>
         ),

@@ -29,7 +29,7 @@ class Assessment(models.Model):
   description = models.TextField()
   time = models.DateTimeField(auto_now_add=True)
   course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="assessments")
-  
+
   def __str__(self):
       return f"{self.title} ({self.course.code})"
   

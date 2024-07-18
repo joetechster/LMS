@@ -54,6 +54,7 @@ import {
 } from "context";
 import { SearchContext } from "context/index";
 import { debounce } from "@mui/material";
+import { signOut } from "utils/auth";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const { search: searchGlobal, setSearch: setSearchGloal } = useContext(SearchContext);
@@ -113,9 +114,16 @@ function DashboardNavbar({ absolute, light, isMini }) {
       onClose={handleCloseMenu}
       sx={{ mt: 2 }}
     >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+      <NotificationItem
+        icon={<Icon>close</Icon>}
+        title="Sign Out"
+        onClick={() => {
+          signOut();
+          location.reload();
+        }}
+      />
+      {/* <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" /> */}
+      {/* <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" /> */}
     </Menu>
   );
 
@@ -156,11 +164,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
               />
             </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
-              <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
-                </IconButton>
-              </Link>
               <IconButton
                 size="small"
                 disableRipple
@@ -172,6 +175,12 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
+              {/* <Link to="/authentication/sign-in/basic">
+                <IconButton sx={navbarIconButton} size="small" disableRipple>
+                  <Icon sx={iconsStyle}>account_circle</Icon>
+                </IconButton>
+              </Link>
+              
               <IconButton
                 size="small"
                 disableRipple
@@ -180,7 +189,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 onClick={handleConfiguratorOpen}
               >
                 <Icon sx={iconsStyle}>settings</Icon>
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 size="small"
                 disableRipple
@@ -191,7 +200,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                <Icon sx={iconsStyle}>notifications</Icon>
+                <Icon sx={iconsStyle}>account_circle</Icon>
               </IconButton>
               {renderMenu()}
             </MDBox>

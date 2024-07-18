@@ -41,7 +41,7 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Take your Assessments
+                  Your Grades
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>

@@ -11,17 +11,20 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { FormControl, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import { FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput } from "@mui/material";
 import { signInUser, User } from "utils/auth";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "utils/globals";
 import PageLayout from "examples/LayoutContainers/PageLayout";
+import { useAlert } from "react-alert";
 
 export default function SignUp() {
   const [image, setImage] = React.useState<File | null>(null);
   const [imageDataUri, setImageDataUri] = React.useState<string | ArrayBuffer | null>("");
   const [imageError, setImageError] = React.useState<string | null>(null);
   const navigate = useNavigate();
+  const alert = useAlert();
+
   const handleImageChange = (event) => {
     const file: File = event.target.files[0];
     if (file) {
@@ -52,9 +55,14 @@ export default function SignUp() {
       method: "POST",
       body: data,
     });
-    const credentials: { token: string; user: User } = await res.json();
-    await signInUser(credentials.user, credentials.token);
-    navigate("/");
+    if (res.status === 200 || res.status === 201) {
+      const credentials: { token: string; user: User } = await res.json();
+      await signInUser(credentials.user, credentials.token);
+      navigate("/");
+      alert.show("Sign up successful", { type: "success" });
+    } else {
+      alert.show("Something went wrong", { type: "error" });
+    }
   };
 
   return (
@@ -91,36 +99,20 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
                   label="Last Name"
                   name="last_name"
                   autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  label="Username"
-                  name="username"
-                  autoComplete="username"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
+                <TextField required fullWidth label="Matriculation Number" name="username" />
               </Grid>
               <Grid item xs={12}>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-password">Passport</InputLabel>
-                  <Typography sx={{ position: "absolute", p: 2 }}>{image?.name}</Typography>
+                  <Typography sx={{ position: "absolute", p: 2 }} variant="caption">
+                    {image?.name}
+                  </Typography>
                   <OutlinedInput
                     id="outlined-adornment-password"
                     type="file"
@@ -146,9 +138,21 @@ export default function SignUp() {
                   fullWidth
                   name="address"
                   label="Address"
-                  id="address"
                   autoComplete="address"
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="type"
+                  label="User Type"
+                  select
+                  SelectProps={{ sx: { height: "45px", minHeight: "100%" } }}
+                >
+                  <MenuItem value="student">Student</MenuItem>
+                  <MenuItem value="instructor">Instructor</MenuItem>
+                </TextField>
               </Grid>
               <Grid item xs={12}>
                 <TextField

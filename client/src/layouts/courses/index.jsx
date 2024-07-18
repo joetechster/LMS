@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -29,23 +14,29 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import courseTableData from "layouts/courses/data/coursesTableData";
-// import projectsTableData from "layouts/courses/data/projectsTableData";
-import { SearchContext } from "context/index";
-import { useContext } from "react";
+import { useState } from "react";
 import { fetch_authenticated } from "utils/globals";
 
 function Tables() {
-  const { columns, rows } = courseTableData((setCourses) => {
-    fetch_authenticated(`/course`)
-      .then((res) => res.json())
-      .then((courses) => setCourses(courses));
-  });
-  const { columns: pColumns, rows: pRows } = courseTableData((setCourses) => {
-    fetch_authenticated(`/course?all=true`)
-      .then((res) => res.json())
-      .then((courses) => setCourses(courses));
-  });
-  const { search } = useContext(SearchContext);
+  const [update, setUpdate] = useState(0);
+  const { columns, rows } = courseTableData(
+    (setCourses) => {
+      fetch_authenticated(`/course`)
+        .then((res) => res.json())
+        .then((courses) => setCourses(courses));
+    },
+    update,
+    setUpdate
+  );
+  const { columns: pColumns, rows: pRows } = courseTableData(
+    (setCourses) => {
+      fetch_authenticated(`/course?all=true`)
+        .then((res) => res.json())
+        .then((courses) => setCourses(courses));
+    },
+    update,
+    setUpdate
+  );
 
   return (
     <DashboardLayout>

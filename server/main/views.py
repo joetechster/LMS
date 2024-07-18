@@ -52,7 +52,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
   permission_classes = [IsAuthenticated]
   
   def get_queryset(self):
-    assessments = Assessment.objects.filter(~Q(scores__student=self.request.user)).all()
+    assessments = Assessment.objects.filter(~Q(scores__student=self.request.user), course__in=self.request.user.courses_attending.all()).all()
     return assessments
 
 class GradeViewSet(viewsets.ModelViewSet): 
@@ -61,3 +61,12 @@ class GradeViewSet(viewsets.ModelViewSet):
   
   def get_queryset(self):
     return self.request.user.grades.all()
+  
+class EnrollView(APIView): 
+  permission_classes = [IsAuthenticated]
+  
+  def post(self, request, course_id): 
+    user = request.user
+    course = Course.objects.get(id=course_id)
+    user.courses_attending.add(course)
+    return Response()

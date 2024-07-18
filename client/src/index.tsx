@@ -1,35 +1,33 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 import "regenerator-runtime";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-
-// Material Dashboard 2 React Context Provider
 import { MaterialUIControllerProvider, SearchContextProvider } from "./context";
+import { transitions, positions, Provider as AlertProvider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+
+// optional configuration
+const options = {
+  // you can also just use 'bottom center'
+  position: positions.BOTTOM_CENTER,
+  timeout: 5000,
+  offset: "30px",
+  // you can also just use 'scale'
+  transition: transitions.SCALE,
+};
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
   <BrowserRouter>
-    <SearchContextProvider>
-      <MaterialUIControllerProvider>
-        <App />
-      </MaterialUIControllerProvider>
-    </SearchContextProvider>
+    <AlertProvider template={AlertTemplate} {...options}>
+      <SearchContextProvider>
+        <MaterialUIControllerProvider>
+          <App />
+        </MaterialUIControllerProvider>
+      </SearchContextProvider>
+    </AlertProvider>
   </BrowserRouter>
 );

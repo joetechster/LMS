@@ -58,7 +58,7 @@ export default function data(fetch) {
         course: <Course code={assessment.course.code} title={assessment.course.title} />,
         time: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
-            {assessment.time}
+            {new Date(assessment.time).toUTCString()}
           </MDTypography>
         ),
         action: (
