@@ -32,9 +32,10 @@ export default function SignIn() {
     const res = await fetch(`${baseUrl}sign-in/`, { method: "POST", body: data });
     if (res.status === 200) {
       const credentials: { token: string; user: User } = await res.json();
-      await signInUser(credentials.user, credentials.token);
-      navigate("/");
+      signInUser(credentials.user, credentials.token);
       alert.show("Sign in successful", { type: "success" });
+      navigate("/");
+      location.reload();
     } else {
       alert.show("Something went wrong", { type: "error" });
     }

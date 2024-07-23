@@ -27,7 +27,7 @@ export default function Assessment() {
   const [selectedAnswers, setSelectedAnswers] = React.useState({});
   const { user } = getUser();
   const alert = useAlert();
-  console.log(assessment);
+
   const handleChange = (event, question_id) => {
     setSelectedAnswers((p) => ({ ...p, [question_id]: event.target.value }));
   };
@@ -44,7 +44,7 @@ export default function Assessment() {
         alert.show("Updated Successfully", { type: "success" });
       }
       console.log(res_data);
-    } else {
+    } else if (user.type === "student") {
       const data = {
         student: getUser().user.id,
         assessment: assessment.id,
@@ -100,7 +100,7 @@ export default function Assessment() {
           </MDBox>
           <Grid container spacing={2} px={4} pt={3}>
             {assessment.questions.map((question) =>
-              user.type === "patient" ? (
+              user.type === "student" ? (
                 <Grid item key={question.id} mb={4} xs={12} sm={6} lg={4}>
                   <Typography variant="h6" gutterBottom>
                     {question.description}
@@ -197,25 +197,25 @@ export default function Assessment() {
                       }))
                     }
                   />
+                  <Grid
+                    container
+                    item
+                    mb={4}
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    px={2}
+                    gap={2}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Button variant="text" onClick={handleAddNew}>
+                      Add Question
+                    </Button>
+                  </Grid>
                 </Grid>
               )
             )}
-            <Grid
-              container
-              item
-              mb={4}
-              xs={12}
-              sm={6}
-              lg={4}
-              px={2}
-              gap={2}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Button variant="text" onClick={handleAddNew}>
-                Add Question
-              </Button>
-            </Grid>
           </Grid>
           <Button
             variant="contained"

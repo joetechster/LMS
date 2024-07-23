@@ -47,6 +47,7 @@ import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import { getUser } from "utils/auth";
 
 const routes = [
   {
@@ -81,14 +82,7 @@ const routes = [
     route: "/assessments/:id",
     component: <Assessment />,
   },
-  {
-    type: "collapse",
-    name: "Grades",
-    key: "grades",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/grades",
-    component: <Grades />,
-  },
+
   {
     type: "collapse",
     name: "Sign In",
@@ -105,6 +99,19 @@ const routes = [
     route: "/authentication/sign-up",
     component: <SignUp />,
   },
-];
+].concat(
+  getUser()?.user.type === "student"
+    ? [
+        {
+          type: "collapse",
+          name: "Grades",
+          key: "grades",
+          icon: <Icon fontSize="small">table_view</Icon>,
+          route: "/grades",
+          component: <Grades />,
+        },
+      ]
+    : []
+);
 
 export default routes;

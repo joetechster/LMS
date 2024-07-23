@@ -58,7 +58,7 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  {user.type === "patient" ? "Your Courses" : "Courses You Lecture"}
+                  {user.type === "student" ? "Your Courses" : "Courses You Lecture"}
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -72,7 +72,7 @@ function Tables() {
               </MDBox>
             </Card>
           </Grid>
-          {user.type === "patient" && (
+          {user.type === "student" && (
             <Grid item xs={12}>
               <Card>
                 <MDBox

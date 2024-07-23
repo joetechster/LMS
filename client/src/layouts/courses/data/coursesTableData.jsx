@@ -56,7 +56,7 @@ export default function data(fetch, update, setUpdate) {
       { Header: "Instructor", accessor: "instructor", width: "35%", align: "left" },
       { Header: "Course", accessor: "course", align: "left" },
     ].concat(
-      user.type === "patient"
+      user.type === "student"
         ? [{ Header: "action", accessor: "action", align: "center", width: "10%" }]
         : []
     ),
