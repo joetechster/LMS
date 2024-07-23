@@ -37,7 +37,8 @@ export default function SignIn() {
       navigate("/");
       location.reload();
     } else {
-      alert.show("Something went wrong", { type: "error" });
+      const res_data = await res.json();
+      alert.show(Object.values(res_data)[0][0], { type: "error" });
     }
   };
 
@@ -52,7 +53,7 @@ export default function SignIn() {
             alignItems: "center",
           }}
         >
-          <MDBox component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
+          <Box component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
