@@ -7,11 +7,13 @@ import { useContext, useLayoutEffect, useState } from "react";
 import { Avatar, Button } from "@mui/material";
 import { getUser } from "utils/auth";
 import { SearchContext } from "context/index";
+import { useNavigate } from "react-router-dom";
 
 export default function data(fetch) {
   const [assessments, setAssessments] = useState([]);
   const { search } = useContext(SearchContext);
   const user = getUser().user;
+  const navigate = useNavigate();
 
   useLayoutEffect(() => {
     fetch(setAssessments);
@@ -62,8 +64,13 @@ export default function data(fetch) {
           </MDTypography>
         ),
         action: (
-          <Button variant="contained" size="small" sx={{ color: "#fff" }}>
-            Start
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ color: "#fff" }}
+            onClick={() => navigate(`/assessments/${assessment.id}`)}
+          >
+            {user.type === "patient" ? "Start" : "Edit"}
           </Button>
         ),
       })),

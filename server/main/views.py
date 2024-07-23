@@ -3,10 +3,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import UserSerializer, CustomTokenSerializer, LoginSerializer, CourseSerializer, AssessmentSerializer, GradeSerializer
+from .serializers import (UserSerializer, CustomTokenSerializer, LoginSerializer, 
+CourseSerializer, AssessmentSerializer, GradeSerializer, QuestionSerializer)
 from .permissions import IsOwnerOrIsAdminOrReadOnly
 from rest_framework.authentication import TokenAuthentication
-from .models import Course, Assessment
+from .models import Course, Assessment, Question
 from django.contrib.auth import authenticate
 from django.db.models import Q
 
@@ -42,6 +43,8 @@ class CourseViewSet(viewsets.ModelViewSet):
   permission_classes = [IsAuthenticated]
   
   def get_queryset(self):
+    if self.request.user.type == "instructor": 
+      return self.request.user.courses_taught.all()
     all = self.request.GET.get("all")
     if not all:
       return self.request.user.courses_attending.all()
@@ -52,8 +55,9 @@ class AssessmentViewSet(viewsets.ModelViewSet):
   permission_classes = [IsAuthenticated]
   
   def get_queryset(self):
-    assessments = Assessment.objects.filter(~Q(scores__student=self.request.user), course__in=self.request.user.courses_attending.all()).all()
-    return assessments
+    if self.request.user.type == "instructor": 
+      return Assessment.objects.filter(course__in=self.request.user.courses_taught.all())
+    return Assessment.objects.filter(~Q(scores__student=self.request.user), course__in=self.request.user.courses_attending.all()).all()
 
 class GradeViewSet(viewsets.ModelViewSet): 
   serializer_class = GradeSerializer
@@ -70,3 +74,18 @@ class EnrollView(APIView):
     course = Course.objects.get(id=course_id)
     user.courses_attending.add(course)
     return Response()
+  
+class QuestionViewSet(viewsets.ModelViewSet): 
+  queryset = Question.objects.all()
+  serializer_class = QuestionSerializer
+  permission_classes = [IsAuthenticated]
+  
+class ManyQuestionView(APIView): 
+  permission_classes = [IsAuthenticated]
+  
+  def post(self, request):
+    serializer = QuestionSerializer(data=request.data, many=True, partial=True) 
+    if (serializer.is_valid(raise_exception=True)): 
+      serializer.save(hack=True)
+    return Response(serializer.data)
+  

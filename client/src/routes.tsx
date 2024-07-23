@@ -41,6 +41,7 @@ import Dashboard from "layouts/dashboard";
 import Courses from "layouts/courses";
 import Grades from "layouts/grades";
 import Assessments from "layouts/assessments";
+import Assessment from "layouts/assessment";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 
@@ -71,6 +72,14 @@ const routes = [
     icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/assessments",
     component: <Assessments />,
+  },
+  {
+    // type: "title",
+    name: "Assessment",
+    key: "assessment",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/assessments/:id",
+    component: <Assessment />,
   },
   {
     type: "collapse",

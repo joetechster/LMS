@@ -16,6 +16,7 @@ import DataTable from "examples/Tables/DataTable";
 import courseTableData from "layouts/courses/data/coursesTableData";
 import { useState } from "react";
 import { fetch_authenticated } from "utils/globals";
+import { getUser } from "utils/auth";
 
 function Tables() {
   const [update, setUpdate] = useState(0);
@@ -37,6 +38,7 @@ function Tables() {
     update,
     setUpdate
   );
+  const { user } = getUser();
 
   return (
     <DashboardLayout>
@@ -56,7 +58,7 @@ function Tables() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Your Courses
+                  {user.type === "patient" ? "Your Courses" : "Courses You Lecture"}
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -70,33 +72,35 @@ function Tables() {
               </MDBox>
             </Card>
           </Grid>
-          <Grid item xs={12}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
-                py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-              >
-                <MDTypography variant="h6" color="white">
-                  All Courses
-                </MDTypography>
-              </MDBox>
-              <MDBox pt={3}>
-                <DataTable
-                  table={{ columns: pColumns, rows: pRows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
-              </MDBox>
-            </Card>
-          </Grid>
+          {user.type === "patient" && (
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    All Courses
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  <DataTable
+                    table={{ columns: pColumns, rows: pRows }}
+                    isSorted={false}
+                    entriesPerPage={false}
+                    showTotalEntries={false}
+                    noEndBorder
+                  />
+                </MDBox>
+              </Card>
+            </Grid>
+          )}
         </Grid>
       </MDBox>
       <Footer />

@@ -1,17 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 import * as React from "react";
 import { useState, useEffect, useMemo } from "react";
 // react-router components
@@ -49,7 +35,7 @@ import routes from "./routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
 // Images
-import brandWhite from "./assets/images/logo-ct.png";
+import brandWhite from "./assets/images/logo.jpg";
 import brandDark from "./assets/images/logo-ct-dark.png";
 import { getUser } from "./utils/auth";
 

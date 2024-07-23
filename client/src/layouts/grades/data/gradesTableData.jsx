@@ -42,7 +42,6 @@ export default function data(fetch) {
     columns: [
       { Header: "Instructor", accessor: "instructor", width: "30%", align: "left" },
       { Header: "Course", accessor: "course", width: "30%", align: "left" },
-      // { Header: "Time", accessor: "time", width: "30%", align: "left" },
       { Header: "Grade", accessor: "grade", align: "center" },
     ],
     rows: grades
@@ -58,7 +57,7 @@ export default function data(fetch) {
         ),
         grade: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
-            {grade.grade}
+            {grade.grade ? grade.grade : "--"}
           </MDTypography>
         ),
       })),

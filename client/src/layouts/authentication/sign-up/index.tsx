@@ -17,8 +17,11 @@ import { useNavigate } from "react-router-dom";
 import { baseUrl } from "utils/globals";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import { useAlert } from "react-alert";
+import logo from "assets/images/logo.jpg";
+import MDBox from "components/MDBox";
 
 export default function SignUp() {
+  const [type, setType] = React.useState("student");
   const [image, setImage] = React.useState<File | null>(null);
   const [imageDataUri, setImageDataUri] = React.useState<string | ArrayBuffer | null>("");
   const [imageError, setImageError] = React.useState<string | null>(null);
@@ -61,7 +64,9 @@ export default function SignUp() {
       navigate("/");
       alert.show("Sign up successful", { type: "success" });
     } else {
-      alert.show("Something went wrong", { type: "error" });
+      const res_data = await res.json();
+      alert.show(Object.values(res_data)[0] as string, { type: "error" });
+      console.log(res_data);
     }
   };
 
@@ -76,14 +81,27 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <MDBox component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2} sx={{ maxWidth: "444px" }}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="type"
+                  label="User Type"
+                  select
+                  SelectProps={{ sx: { height: "45px", minHeight: "100%" } }}
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                >
+                  <MenuItem value="student">Student</MenuItem>
+                  <MenuItem value="instructor">Instructor</MenuItem>
+                </TextField>
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -105,7 +123,12 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField required fullWidth label="Matriculation Number" name="username" />
+                <TextField
+                  required
+                  fullWidth
+                  label={type === "student" ? "Matriculation Number" : "Username"}
+                  name="username"
+                />
               </Grid>
               <Grid item xs={12}>
                 <FormControl sx={{ width: "100%" }} variant="outlined">
@@ -141,19 +164,7 @@ export default function SignUp() {
                   autoComplete="address"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="type"
-                  label="User Type"
-                  select
-                  SelectProps={{ sx: { height: "45px", minHeight: "100%" } }}
-                >
-                  <MenuItem value="student">Student</MenuItem>
-                  <MenuItem value="instructor">Instructor</MenuItem>
-                </TextField>
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required

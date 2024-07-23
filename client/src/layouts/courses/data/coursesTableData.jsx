@@ -54,9 +54,12 @@ export default function data(fetch, update, setUpdate) {
   return {
     columns: [
       { Header: "Instructor", accessor: "instructor", width: "35%", align: "left" },
-      { Header: "Course", accessor: "course", width: "55%", align: "left" },
-      { Header: "action", accessor: "action", align: "center" },
-    ],
+      { Header: "Course", accessor: "course", align: "left" },
+    ].concat(
+      user.type === "patient"
+        ? [{ Header: "action", accessor: "action", align: "center", width: "10%" }]
+        : []
+    ),
     rows: courses
       .filter(
         (course) =>

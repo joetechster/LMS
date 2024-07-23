@@ -17,8 +17,13 @@ import { useNavigate } from "react-router-dom";
 import { baseUrl } from "utils/globals";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import { useAlert } from "react-alert";
+import logo from "assets/images/logo.jpg";
+import MDBox from "components/MDBox";
+import { MenuItem } from "@mui/material";
 
 export default function SignIn() {
+  const [type, setType] = React.useState("student");
+
   const navigate = useNavigate();
   const alert = useAlert();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,18 +51,29 @@ export default function SignIn() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <MDBox component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
+              required
+              fullWidth
+              name="type"
+              label="User Type"
+              select
+              SelectProps={{ sx: { height: "45px", minHeight: "100%" } }}
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="instructor">Instructor</MenuItem>
+            </TextField>
+            <TextField
               margin="normal"
               required
               fullWidth
-              label="Matriculation number"
+              label={type === "student" ? "Matriculation Number" : "Username"}
               name="username"
               autoFocus
             />

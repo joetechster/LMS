@@ -7,7 +7,7 @@ class CustomUser(AbstractUser):
   type = models.TextField(choices=(("student", "Student"), ("instructor", "Instructor")), default="student")
   
   def __str__(self):
-      return self.email
+      return self.username
     
   class Meta:
     verbose_name = "User"
@@ -43,6 +43,10 @@ class Question(models.Model):
   assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE, related_name="questions")
   
 class Grade(models.Model): 
-  grade = models.IntegerField()
+  grade = models.IntegerField(blank=True, null=True)
+  answers = models.TextField(blank=True, null=True)
   student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="grades")
   assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE, related_name="scores")
+  
+  class Meta:
+    unique_together = ["assessment", "student"]
