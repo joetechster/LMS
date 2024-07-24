@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import CustomUser, Course, Assessment, Grade, Question
 from django.contrib.auth.hashers import make_password
 
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     
@@ -70,14 +71,31 @@ class AssessmentSerializer(serializers.ModelSerializer):
     model = Assessment 
     fields = "__all__"
 
+import json
 class GradeSerializer(serializers.ModelSerializer): 
   student = UserSerializer(read_only=True)
   assessment = AssessmentSerializer(read_only=True)
 
+  def calculate_grade(self, validated_data):
+    selected_answers = json.loads(validated_data.get("answers")) # {question.id: selected(a, b, ...), ...}
+    assessment_questions = Assessment.objects.get(id=self.initial_data.get("assessment")).questions.all()
+    grade = 0 
+    for question in assessment_questions: 
+      if question.answer == selected_answers.get(str(question.id)): grade = grade + 1
+    grade = round(( grade / len(assessment_questions)) * 100)
+    return grade
+  
   def create(self, validated_data):
-    validated_data["student"] = CustomUser.objects.get(id=self.initial_data.get("student"))
-    validated_data["assessment"] = Assessment.objects.get(id=self.initial_data.get("assessment"))
-    return Grade.objects.create(**validated_data)
+    student = CustomUser.objects.get(id=self.initial_data.get("student"))
+    assessment = Assessment.objects.get(id=self.initial_data.get("assessment"))
+    grade_obj = Grade.objects.filter(assessment=assessment, student=student).first()
+    if grade_obj: return grade_obj 
+    grade = self.calculate_grade(validated_data)
+    validated_data["student"] = student
+    validated_data["assessment"] = assessment
+    return Grade.objects.create(grade=grade, **validated_data)
+  
+  
   class Meta:
     model = Grade
     fields = "__all__"

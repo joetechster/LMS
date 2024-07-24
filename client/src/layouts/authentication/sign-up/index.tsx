@@ -61,8 +61,9 @@ export default function SignUp() {
     if (res.status === 200 || res.status === 201) {
       const credentials: { token: string; user: User } = await res.json();
       await signInUser(credentials.user, credentials.token);
-      navigate("/");
       alert.show("Sign up successful", { type: "success" });
+      navigate("/");
+      location.reload();
     } else {
       const res_data = await res.json();
       alert.show(Object.values(res_data)[0] as string, { type: "error" });
@@ -81,7 +82,7 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <MDBox component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
+          <Box component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>

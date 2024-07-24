@@ -13,6 +13,7 @@ export type User = {
   passport: string | null;
   user_permissions: string[];
   username: string;
+  type: "student" | "instructor";
 };
 export const getUser: () => { user: User; token: string } | null = () => {
   const userString = localStorage.getItem("user");

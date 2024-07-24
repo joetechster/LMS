@@ -70,7 +70,7 @@ export default function data(fetch) {
             sx={{ color: "#fff" }}
             onClick={() => navigate(`/assessments/${assessment.id}`)}
           >
-            {user.type === "patient" ? "Start" : "Edit"}
+            {user.type === "student" ? "Start" : "Edit"}
           </Button>
         ),
       })),

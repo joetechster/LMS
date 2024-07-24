@@ -32,11 +32,13 @@ export default function SignIn() {
     const res = await fetch(`${baseUrl}sign-in/`, { method: "POST", body: data });
     if (res.status === 200) {
       const credentials: { token: string; user: User } = await res.json();
-      await signInUser(credentials.user, credentials.token);
-      navigate("/");
+      signInUser(credentials.user, credentials.token);
       alert.show("Sign in successful", { type: "success" });
+      navigate("/");
+      location.reload();
     } else {
-      alert.show("Something went wrong", { type: "error" });
+      const res_data = await res.json();
+      alert.show(Object.values(res_data)[0][0], { type: "error" });
     }
   };
 
@@ -51,7 +53,7 @@ export default function SignIn() {
             alignItems: "center",
           }}
         >
-          <MDBox component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
+          <Box component="img" src={logo} alt="Brand" width="5rem" sx={{ borderRadius: 2 }} />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
