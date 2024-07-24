@@ -67,9 +67,11 @@ function Tables() {
                 <MDTypography variant="h6" color="white">
                   {user.type === "student" ? "Take your Assessments" : "Assessments You Created"}
                 </MDTypography>
-                <Button variant="outlined" color="white" onClick={() => setOpen(true)}>
-                  New
-                </Button>
+                {user.type === "instructor" && (
+                  <Button variant="outlined" color="white" onClick={() => setOpen(true)}>
+                    New
+                  </Button>
+                )}
               </MDBox>
               <MDBox pt={3}>
                 <DataTable

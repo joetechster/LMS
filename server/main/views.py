@@ -7,7 +7,7 @@ from .serializers import (UserSerializer, CustomTokenSerializer, LoginSerializer
 CourseSerializer, AssessmentSerializer, GradeSerializer, QuestionSerializer)
 from .permissions import IsOwnerOrIsAdminOrReadOnly
 from rest_framework.authentication import TokenAuthentication
-from .models import Course, Assessment, Question
+from .models import Course, Assessment, Question, Grade
 from django.contrib.auth import authenticate
 from django.db.models import Q
 
@@ -57,6 +57,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
   def get_queryset(self):
     if self.request.user.type == "instructor": 
       return Assessment.objects.filter(course__in=self.request.user.courses_taught.all())
+    # return assessment student have not yet taken
     return Assessment.objects.filter(~Q(scores__student=self.request.user), course__in=self.request.user.courses_attending.all()).all()
 
 class GradeViewSet(viewsets.ModelViewSet): 
@@ -64,6 +65,8 @@ class GradeViewSet(viewsets.ModelViewSet):
   permission_classes = [IsAuthenticated]
   
   def get_queryset(self):
+    if self.request.user.type == "instructor": 
+      return Grade.objects.filter(assessment__in=Assessment.objects.filter(course__in=self.request.user.courses_taught.all()))
     return self.request.user.grades.all()
   
 class EnrollView(APIView): 
