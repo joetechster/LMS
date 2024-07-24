@@ -16,7 +16,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import React, { useLayoutEffect, useState } from "react";
 import { useAlert } from "react-alert";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getUser } from "utils/auth";
 import { fetch_authenticated } from "utils/globals";
 
@@ -27,6 +27,7 @@ export default function Assessment() {
   const [selectedAnswers, setSelectedAnswers] = React.useState({});
   const { user } = getUser();
   const alert = useAlert();
+  const navigate = useNavigate();
 
   const handleChange = (event, question_id) => {
     setSelectedAnswers((p) => ({ ...p, [question_id]: event.target.value }));
@@ -42,6 +43,7 @@ export default function Assessment() {
       const res_data = await res.json();
       if (res.status === 200 || res.status === 201) {
         alert.show("Updated Successfully", { type: "success" });
+        navigate("/assessments");
       }
       console.log(res_data);
     } else if (user.type === "student") {
@@ -54,7 +56,10 @@ export default function Assessment() {
         method: "POST",
         body: JSON.stringify(data),
       });
-      console.log(await res.json());
+      if (res.status === 201 || res.status === 200) {
+        alert.success("Assessment submitted");
+        navigate("/assessments");
+      }
     }
   };
 

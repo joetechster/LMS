@@ -1,18 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 /** 
   All of the routes for the Material Dashboard 2 React are added here,
   You can add a new route, customize the routes and delete the routes here.
@@ -35,8 +20,7 @@ Coded by www.creative-tim.com
   10. The `component` key is used to store the component of its route.
 */
 import React from "react";
-
-// Material Dashboard 2 React layouts
+import Icon from "@mui/material/Icon";
 import Dashboard from "layouts/dashboard";
 import Courses from "layouts/courses";
 import Grades from "layouts/grades";
@@ -44,10 +28,8 @@ import Assessments from "layouts/assessments";
 import Assessment from "layouts/assessment";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
-
-// @mui icons
-import Icon from "@mui/material/Icon";
 import { getUser } from "utils/auth";
+import Chatbot from "layouts/chatbot";
 
 const routes = [
   {
@@ -109,6 +91,14 @@ const routes = [
           icon: <Icon fontSize="small">table_view</Icon>,
           route: "/grades",
           component: <Grades />,
+        },
+        {
+          type: "collapse",
+          name: "AI Bot",
+          key: "chatbot",
+          icon: <Icon fontSize="small">chat</Icon>,
+          route: "/chat",
+          component: <Chatbot />,
         },
       ]
     : []

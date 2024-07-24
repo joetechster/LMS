@@ -77,8 +77,9 @@ class GradeSerializer(serializers.ModelSerializer):
   assessment = AssessmentSerializer(read_only=True)
 
   def calculate_grade(self, validated_data):
-    selected_answers = json.loads(validated_data.get("answers")) # {question.id: selected(a, b, ...), ...}
     assessment_questions = Assessment.objects.get(id=self.initial_data.get("assessment")).questions.all()
+    if len(assessment_questions) < 1: return 0
+    selected_answers = json.loads(validated_data.get("answers")) # {question.id: selected(a, b, ...), ...}
     grade = 0 
     for question in assessment_questions: 
       if question.answer == selected_answers.get(str(question.id)): grade = grade + 1

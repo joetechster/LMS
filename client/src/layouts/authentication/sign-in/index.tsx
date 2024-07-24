@@ -38,7 +38,7 @@ export default function SignIn() {
       location.reload();
     } else {
       const res_data = await res.json();
-      alert.show(Object.values(res_data)[0][0], { type: "error" });
+      alert.error(res_data);
     }
   };
 
