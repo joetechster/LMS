@@ -30,7 +30,7 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import { getUser } from "utils/auth";
 import Chatbot from "layouts/chatbot";
-
+import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
 const routes = [
   {
     type: "collapse",
@@ -94,9 +94,10 @@ const routes = [
         },
         {
           type: "collapse",
-          name: "AI Bot",
+          name: "PCU Bot",
           key: "chatbot",
-          icon: <Icon fontSize="small">chat</Icon>,
+          icon: <SmartToyOutlinedIcon />,
+          // icon: <Icon fontSize="small">robot_2</Icon>,
           route: "/chat",
           component: <Chatbot />,
         },
