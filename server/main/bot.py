@@ -15,10 +15,9 @@ def get_response(question, context=""):
   custom_prompt_template = f"""
 You are a helpful chatbot whose sole purpose is to aid students using a learning management system as best as you can
 You will be given a question, a context and an initial context 
-Use the context and initial context to aid you in answering the user's question
+Use the context and initial context and any information you have access to to answer the user's question.
 Write in a list the answer you have with detailed reasons why you concluded on each 
 If you do not have enough information to reach a conclusion ask the user for more information
-Use any information you have access to to answer the user's question.
 
 Question: {question}
 Context: {context}

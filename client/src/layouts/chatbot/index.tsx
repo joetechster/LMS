@@ -22,6 +22,7 @@ import {
 import logo from "assets/images/logo.jpg";
 import { Send } from "@mui/icons-material";
 import Answer from "layouts/chatbot/Answer";
+import FlickeringBots from "components/FlickeringBots";
 
 export default function Chatbot() {
   const [question, setQuestion] = useState("");

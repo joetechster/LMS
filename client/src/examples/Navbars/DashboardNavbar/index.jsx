@@ -55,6 +55,7 @@ import {
 import { SearchContext } from "context/index";
 import { debounce } from "@mui/material";
 import { signOut } from "utils/auth";
+import FlickeringBots from "components/FlickeringBots";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const { search: searchGlobal, setSearch: setSearchGloal } = useContext(SearchContext);
@@ -175,12 +176,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              {/* <Link to="/authentication/sign-in/basic">
+              <Link to="/chat">
                 <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
+                  {/* <Icon sx={iconsStyle}>account_circle</Icon> */}
+                  <FlickeringBots />
                 </IconButton>
               </Link>
-              
+              {/*
               <IconButton
                 size="small"
                 disableRipple
