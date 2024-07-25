@@ -99,6 +99,7 @@ export default function Chatbot() {
                 if (event.key === "Enter") handleSubmit();
               }}
               sx={{
+                background: "transparent",
                 pl: 2,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
