@@ -1,32 +1,10 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ReportsPieChart from "examples/Charts/PieChart/ReportsPieChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-
-// Data
 import reportsPieChartData from "layouts/dashboard/data/reportsPieChartData";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { fetch_authenticated } from "utils/globals";
@@ -44,7 +22,10 @@ function Dashboard() {
       .then((assessments) => setAssessments(assessments));
     fetch_authenticated("grade")
       .then((res) => res.json())
-      .then((grades) => setGrades(grades));
+      .then((grades) => {
+        console.log(grades);
+        setGrades(grades);
+      });
   }, []);
   return (
     <DashboardLayout>
@@ -71,7 +52,7 @@ function Dashboard() {
               <ComplexStatisticsCard
                 icon="leaderboard"
                 title="Average Grade"
-                count={grades.reduce((prev, curr) => prev + curr.grade, 0) / grades.length}
+                count={grades.reduce((prev, curr) => prev + curr.grade, 0) / grades.length || 0}
                 percentage={{
                   color: "success",
                   amount: "",
