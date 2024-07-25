@@ -57,7 +57,7 @@ export default function data(fetch) {
         ),
         grade: (
           <MDTypography variant="caption" color="text" fontWeight="medium">
-            {grade.grade ? grade.grade : "--"}
+            {grade.grade}
           </MDTypography>
         ),
       })),

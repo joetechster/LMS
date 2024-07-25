@@ -114,11 +114,11 @@ function Dashboard() {
                   date="Just updated"
                   chart={useMemo(
                     () => ({
-                      labels: ["Assessments not done", "Assessments done"],
+                      labels: ["Assessments done", "Assessments not done"],
                       datasets: {
-                        label: "Sales",
-                        data: [assessments.length, grades.length],
-                        backgroundColors: ["white", "info"],
+                        label: "Assessments",
+                        data: [grades.length, assessments.length],
+                        backgroundColors: ["info", "white"],
                       },
                     }),
                     [assessments, grades]
