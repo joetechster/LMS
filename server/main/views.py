@@ -10,7 +10,7 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Course, Assessment, Question, Grade
 from django.contrib.auth import authenticate
 from django.db.models import Q
-
+from .bot import get_response
 class SignUpView(APIView):
   def post(self, request):
     user_serializer = UserSerializer(data=request.data)
@@ -92,3 +92,9 @@ class ManyQuestionView(APIView):
       serializer.save(hack=True)
     return Response(serializer.data)
   
+class ChatView(APIView): 
+  def post(self, request): 
+    question = request.data["question"]
+    context = request.data["context"]
+    res = get_response(question, context)
+    return Response(res.text)

@@ -11,7 +11,7 @@ print(f"Secret Key: {gemini_api_key}")
 genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
-def get_diagnosis(question, context):
+def get_response(question, context=""):
   custom_prompt_template = f"""
 You are a medical diagnosis model and a medical professional, you will be given a question and a context.
 Try to figure out possible causes for symptoms provided by the user
@@ -30,3 +30,5 @@ Helpful answer:
 
   response = model.generate_content(custom_prompt_template)
   return response
+
+initial = get_response("hi")
