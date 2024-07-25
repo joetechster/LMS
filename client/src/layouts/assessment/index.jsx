@@ -19,6 +19,7 @@ import { useAlert } from "react-alert";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { getUser } from "utils/auth";
 import { fetch_authenticated } from "utils/globals";
+import CountdownTimer from "./Timer";
 
 export default function Assessment() {
   const { id } = useParams();
@@ -42,8 +43,8 @@ export default function Assessment() {
       const res = await fetch_authenticated("many-question/", { method: "POST", body: data });
       const res_data = await res.json();
       if (res.status === 200 || res.status === 201) {
-        alert.show("Updated Successfully", { type: "success" });
         navigate("/assessments");
+        alert.show("Updated Successfully", { type: "success" });
       }
       console.log(res_data);
     } else if (user.type === "student") {
@@ -57,8 +58,8 @@ export default function Assessment() {
         body: JSON.stringify(data),
       });
       if (res.status === 201 || res.status === 200) {
-        alert.success("Assessment submitted");
         navigate("/assessments");
+        alert.success("Assessment submitted");
       }
     }
   };
@@ -95,13 +96,19 @@ export default function Assessment() {
             bgColor="info"
             borderRadius="lg"
             coloredShadow="info"
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
           >
-            <MDTypography variant="h5" color="white">
-              {assessment.title}
-            </MDTypography>
-            <MDTypography variant="subtitle2" color="white">
-              {assessment.description}
-            </MDTypography>
+            <Box>
+              <MDTypography variant="h5" color="white">
+                {assessment.title}
+              </MDTypography>
+              <MDTypography variant="subtitle2" color="white">
+                {assessment.description}
+              </MDTypography>
+            </Box>
+            {user.type === "student" && <CountdownTimer callback={handleSubmit} seconds={900} />}
           </MDBox>
           <Grid container spacing={2} px={4} pt={3}>
             {assessment.questions.map((question) =>
