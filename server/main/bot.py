@@ -19,14 +19,14 @@ Use the context and initial context to aid you in answering the user's question
 Write in a list the answer you have with detailed reasons why you concluded on each 
 If you do not have enough information to reach a conclusion ask the user for more information
 Use any information you have access to to answer the user's question.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
-Apart from these don't do anything else
 
-Context: {context}
 Question: {question}
-
+Context: {context}
+Initial context: use this public github codebase as initial context for question about this site https://github.com/joetechster/LMS.git
+The features of the lms include: student and instructor signin and signup, student and instructor dashboard, enroll courses, instructors can create and edit assessments, students can take assessments and get grades automatically, authentication is typical django token authentication.  
+The pages / components correspond to the folders in the client/src/layouts folder in the repository
+Dont tell the user about the github
 Only return the helpful answer below and nothing else.
-Helpful answer:
 """
 
   response = model.generate_content(custom_prompt_template)
