@@ -13,7 +13,7 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 
 def get_response(question, context=""):
   custom_prompt_template = f"""
-You are a helpful chatbot whose sole purpose is to aid students using a learning management system as best as you can
+You are a helpful chatbot whose sole purpose is to aid students to answer questions about learning in general and using a learning management system as best as you can
 You will be given a question, a context and an initial context 
 Use the context and initial context and any information you have access to to answer the user's question.
 Write in a list the answer you have with detailed reasons why you concluded on each 
