@@ -98,3 +98,10 @@ class ChatView(APIView):
     context = request.data["context"]
     res = get_response(question, context)
     return Response(res.text)
+  
+class AssessmentGradesView(APIView): 
+  def get(self, request, assessment_id):
+    scores = Assessment.objects.get(id=assessment_id).scores
+    grade_serializer = GradeSerializer(scores, many=True)
+    return Response(grade_serializer.data)
+    

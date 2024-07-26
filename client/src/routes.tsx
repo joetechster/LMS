@@ -24,6 +24,8 @@ import Icon from "@mui/material/Icon";
 import Dashboard from "layouts/dashboard";
 import Courses from "layouts/courses";
 import Grades from "layouts/grades";
+import StudentGradesSelectAssessment from "layouts/student_grades";
+import StudentGrades from "layouts/student_grades/StudentGrades";
 import Assessments from "layouts/assessments";
 import Assessment from "layouts/assessment";
 import SignIn from "layouts/authentication/sign-in";
@@ -31,6 +33,7 @@ import SignUp from "layouts/authentication/sign-up";
 import { getUser } from "utils/auth";
 import Chatbot from "layouts/chatbot";
 import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
+
 const routes = [
   {
     type: "collapse",
@@ -102,7 +105,23 @@ const routes = [
           component: <Chatbot />,
         },
       ]
-    : []
+    : [
+        {
+          type: "collapse",
+          name: "Student Grades",
+          key: "student-grades",
+          icon: <Icon fontSize="small">table_view</Icon>,
+          route: "/student-grades",
+          component: <StudentGradesSelectAssessment />,
+        },
+        {
+          name: "Student Grades",
+          key: "student-grades",
+          icon: <Icon fontSize="small">table_view</Icon>,
+          route: "/student-grades/:assessment_id",
+          component: <StudentGrades />,
+        },
+      ]
 );
 
 export default routes;

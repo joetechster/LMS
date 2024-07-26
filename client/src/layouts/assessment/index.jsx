@@ -209,24 +209,26 @@ export default function Assessment() {
                       }))
                     }
                   />
-                  <Grid
-                    container
-                    item
-                    mb={4}
-                    xs={12}
-                    sm={6}
-                    lg={4}
-                    px={2}
-                    gap={2}
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    <Button variant="text" onClick={handleAddNew}>
-                      Add Question
-                    </Button>
-                  </Grid>
                 </Grid>
               )
+            )}
+            {user.type === "instructor" && (
+              <Grid
+                container
+                item
+                mb={4}
+                xs={12}
+                sm={6}
+                lg={4}
+                px={2}
+                gap={2}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Button variant="text" onClick={handleAddNew}>
+                  Add Question
+                </Button>
+              </Grid>
             )}
           </Grid>
           <Button
