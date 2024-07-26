@@ -48,7 +48,7 @@ function Tables() {
                 justifyContent="space-between"
               >
                 <MDTypography variant="h6" color="white">
-                  Your Grades
+                  Grades
                 </MDTypography>
                 <PrintAssessmentGrades id={assessment_id} />
               </MDBox>

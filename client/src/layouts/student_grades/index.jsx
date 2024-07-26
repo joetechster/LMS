@@ -65,7 +65,7 @@ function Tables() {
                 justifyContent="space-between"
               >
                 <MDTypography variant="h6" color="white">
-                  {user.type === "student" ? "Take your Assessments" : "Assessments You Created"}
+                  Your Assessments
                 </MDTypography>
                 {user.type === "instructor" && (
                   <Button variant="outlined" color="white" onClick={() => setOpen(true)}>
