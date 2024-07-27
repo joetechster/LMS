@@ -51,3 +51,8 @@ class Grade(models.Model):
   
   class Meta:
     unique_together = ["assessment", "student"]
+    
+class FeedBackMessage(models.Model): 
+  message = models.TextField()
+  sent_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="messages")
+  course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="messages")
