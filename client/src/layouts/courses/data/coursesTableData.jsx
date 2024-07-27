@@ -70,9 +70,15 @@ export default function data(fetch, update, setUpdate) {
         instructor: <Instructor instructor={course.instructor} />,
         course: <Course code={course.code} title={course.title} />,
         action: course.students.find((student) => student.id === user.id) ? (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            Enrolled
-          </MDTypography>
+          <Button
+            variant="contained"
+            size="small"
+            sx={{ color: "#fff" }}
+            href={course.material}
+            disabled={!course.material}
+          >
+            Course Material
+          </Button>
         ) : (
           <Button
             variant="contained"
