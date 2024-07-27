@@ -19,10 +19,8 @@ import {
   Link,
   Card,
 } from "@mui/material";
-import logo from "assets/images/logo.jpg";
 import { Send } from "@mui/icons-material";
-import Answer from "layouts/chatbot/Answer";
-import FlickeringBots from "components/FlickeringBots";
+import Answer from "components/Answer";
 
 export default function Chatbot() {
   const [question, setQuestion] = useState("");

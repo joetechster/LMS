@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import MDBox from "components/MDBox";
 import { getUser } from "./auth";
 import MDTypography from "components/MDTypography";
-import { Button } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -29,6 +29,20 @@ export const Course = ({ title, code }) => (
     <MDTypography variant="caption">{title}</MDTypography>
   </MDBox>
 );
+
+export const Instructor = ({ instructor: user }) => {
+  return (
+    <MDBox display="flex" alignItems="center" lineHeight={1}>
+      <Avatar src={user.passport} />
+      <MDBox ml={2} lineHeight={1}>
+        <MDTypography display="block" variant="button" fontWeight="medium">
+          {`${user.first_name} ${user.last_name}`}
+        </MDTypography>
+        <MDTypography variant="caption">{user.email}</MDTypography>
+      </MDBox>
+    </MDBox>
+  );
+};
 
 export const PrintAssessmentGrades = ({ id }) => {
   const [grades, setGrades] = useState([]);

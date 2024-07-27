@@ -32,7 +32,9 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
 import { getUser } from "utils/auth";
 import Chatbot from "layouts/chatbot";
+import Feedback from "layouts/feedback";
 import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
+import { FeedbackOutlined } from "@mui/icons-material";
 
 const routes = [
   {
@@ -83,6 +85,14 @@ const routes = [
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/sign-up",
     component: <SignUp />,
+  },
+  {
+    type: "collapse",
+    name: "Feedback",
+    key: "feedback",
+    icon: <FeedbackOutlined />,
+    route: "/feedback",
+    component: <Feedback />,
   },
 ].concat(
   getUser()?.user.type === "student"

@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import CustomUser, Course, Assessment, Grade, Question
+from .models import CustomUser, Course, Assessment, Grade, Question, FeedBackMessage
 from django.contrib.auth.hashers import make_password
 
 
@@ -99,4 +99,22 @@ class GradeSerializer(serializers.ModelSerializer):
   
   class Meta:
     model = Grade
+    fields = "__all__"
+    
+class FeedBackSerializer(serializers.ModelSerializer):
+  sent_by = UserSerializer(read_only=True)
+  course = CourseSerializer(read_only=True)
+  
+  def create(self, validated_data): 
+    sent_by = self.context['request'].user 
+    course = Course.objects.get(id=self.initial_data.get('course')) 
+    message = validated_data.get('message')
+    if sent_by == 'student': 
+      sent_to = course.instructor
+    else: 
+      sent_to = validated_data.get('sent_to')
+    return FeedBackMessage.objects.create(sent_by=sent_by, course=course, sent_to=sent_to, message=message)  
+
+  class Meta: 
+    model = FeedBackMessage
     fields = "__all__"

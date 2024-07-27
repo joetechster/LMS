@@ -54,5 +54,6 @@ class Grade(models.Model):
     
 class FeedBackMessage(models.Model): 
   message = models.TextField()
-  sent_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="messages")
+  sent_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="sent_messages")
+  sent_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="received_messages")
   course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="messages")

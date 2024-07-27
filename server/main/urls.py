@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 from .views import (SignUpView, SignInView, CourseViewSet, AssessmentViewSet, GradeViewSet, EnrollView, 
-QuestionViewSet, ManyQuestionView, ChatView, AssessmentGradesView)
+QuestionViewSet, ManyQuestionView, ChatView, AssessmentGradesView, FeedbackMessageView, StudentViewSet)
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import routers
@@ -12,6 +12,8 @@ router.register(r'course', CourseViewSet, basename='course')
 router.register(r'assessment', AssessmentViewSet, basename='assessment')
 router.register(r'grade', GradeViewSet, basename='grade')
 router.register(r'question', QuestionViewSet, basename='question')
+router.register(r'message', FeedbackMessageView, basename='feedback-message')
+router.register(r'student', StudentViewSet, basename='students')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

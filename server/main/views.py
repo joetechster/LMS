@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .serializers import (UserSerializer, CustomTokenSerializer, LoginSerializer, 
-CourseSerializer, AssessmentSerializer, GradeSerializer, QuestionSerializer)
+CourseSerializer, AssessmentSerializer, FeedBackSerializer, GradeSerializer, QuestionSerializer)
 from .permissions import IsOwnerOrIsAdminOrReadOnly
 from rest_framework.authentication import TokenAuthentication
-from .models import Course, Assessment, Question, Grade
+from .models import Course, Assessment, Question, Grade, FeedBackMessage, CustomUser
 from django.contrib.auth import authenticate
 from django.db.models import Q
 from .bot import get_response
@@ -104,4 +104,33 @@ class AssessmentGradesView(APIView):
     scores = Assessment.objects.get(id=assessment_id).scores
     grade_serializer = GradeSerializer(scores, many=True)
     return Response(grade_serializer.data)
-    
+
+class FeedbackMessageView(viewsets.ModelViewSet):
+  serializer_class = FeedBackSerializer
+  permission_classes = [IsAuthenticated]
+  
+  def get_queryset(self):
+    course = Course.objects.get(id=self.kwargs.get('pk'))
+    if self.request.user.type == "student": 
+      return FeedBackMessage.objects.filter(Q(sent_by=self.request.user, sent_to=course.instructor) | Q(sent_by=course.instructor, sent_to=self.request.user), course=course)
+    else: 
+      student = CustomUser.objects.get(id=self.request.GET.get('student_id'))
+      return FeedBackMessage.objects.filter(Q(sent_by=self.request.user, sent_to=student) | Q(sent_by=student, sent_to=self.request.user), course=course)
+      
+  def retrieve(self, request, pk):
+    queryset = self.get_queryset()
+    serializer = FeedBackSerializer(queryset, many=True)
+    return Response(serializer.data)
+  
+class StudentViewSet(viewsets.ModelViewSet):
+  serializer_class = UserSerializer
+  permission_classes = [IsAuthenticated]
+  
+  def get_queryset(self):
+    course = Course.objects.get(id=self.kwargs.get('pk'))
+    return CustomUser.objects.filter(~Q(sent_messages=None), type="student").filter(sent_messages__course=course).distinct()
+  
+  def retrieve(self, request, pk):
+    queryset = self.get_queryset()
+    serializer = UserSerializer(queryset, many=True)
+    return Response(serializer.data)
