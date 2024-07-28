@@ -134,3 +134,13 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = self.get_queryset()
     serializer = UserSerializer(queryset, many=True)
     return Response(serializer.data)
+  
+class UploadCourseMaterial(APIView): 
+  permission_classes = [IsAuthenticated]
+  
+  def post(self, request, course_id): 
+    course = Course.objects.get(id=course_id)
+    course_material = request.FILES["course_material"]
+    course.material = course_material
+    course.save()
+    return Response(CourseSerializer(course).data)

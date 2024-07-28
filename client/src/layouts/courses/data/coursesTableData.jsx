@@ -4,8 +4,8 @@ import MDTypography from "components/MDTypography";
 
 // Images
 import { baseUrl, fetch_authenticated } from "utils/globals";
-import { useContext, useLayoutEffect, useState } from "react";
-import { Avatar, Button } from "@mui/material";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { Avatar, Button, TextField, Typography } from "@mui/material";
 import { getUser } from "utils/auth";
 import { SearchContext } from "context/index";
 import { useAlert } from "react-alert";
@@ -58,7 +58,7 @@ export default function data(fetch, update, setUpdate) {
     ].concat(
       user.type === "student"
         ? [{ Header: "action", accessor: "action", align: "center", width: "10%" }]
-        : []
+        : [{ Header: "action", accessor: "action-instructor", align: "center", width: "10%" }]
     ),
     rows: courses
       .filter(
@@ -89,6 +89,45 @@ export default function data(fetch, update, setUpdate) {
             Enroll
           </Button>
         ),
+        "action-instructor": (
+          <UploadMaterial id={course.id} disabled={Boolean(course.material)} a={course} />
+        ),
       })),
   };
+}
+
+function UploadMaterial({ id, disabled }) {
+  const [image, setImage] = useState(null);
+
+  const handleSubmit = () => {
+    if (!image) return;
+    const formData = new FormData();
+    formData.append("course_material", image);
+    fetch_authenticated(`upload-material/${id}`, { method: "POST", body: formData }, true)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+  useEffect(handleSubmit, [image]);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImage(file);
+    } else {
+      setImage(null);
+    }
+  };
+
+  return (
+    <Button variant="contained" size="small" sx={{ color: "#fff" }} disabled={disabled}>
+      Upload Course Material
+      {!disabled && (
+        <TextField
+          type="file"
+          sx={{ position: "absolute", inset: 0 }}
+          inputProps={{ style: { padding: 0, height: 32, opacity: 0 } }}
+          onChange={handleImageChange}
+        />
+      )}
+    </Button>
+  );
 }
