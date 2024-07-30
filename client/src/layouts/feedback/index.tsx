@@ -76,7 +76,7 @@ export default function Feedback() {
       body: JSON.stringify({
         message: message,
         course: course,
-        sent_to: user.type === "instructor" ? student : 1,
+        sent_to: user.type === "instructor" ? student : 0,
       }),
     });
     const newMessage = await res.json();

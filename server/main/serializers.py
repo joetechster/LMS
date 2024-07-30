@@ -109,7 +109,7 @@ class FeedBackSerializer(serializers.ModelSerializer):
     sent_by = self.context['request'].user 
     course = Course.objects.get(id=self.initial_data.get('course')) 
     message = validated_data.get('message')
-    if sent_by == 'student': 
+    if sent_by.type == 'student': 
       sent_to = course.instructor
     else: 
       sent_to = validated_data.get('sent_to')
