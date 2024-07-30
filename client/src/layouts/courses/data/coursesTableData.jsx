@@ -30,6 +30,10 @@ export default function data(fetch, update, setUpdate) {
     }
   };
 
+  const openMultiple = (materials) => {
+    materials.forEach((material) => window.open(material.material));
+  };
+
   const Instructor = ({ instructor }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
       <Avatar src={instructor.passport} />
@@ -50,7 +54,6 @@ export default function data(fetch, update, setUpdate) {
       <MDTypography variant="caption">{title}</MDTypography>
     </MDBox>
   );
-
   return {
     columns: [
       { Header: "Instructor", accessor: "instructor", width: "35%", align: "left" },
@@ -74,8 +77,11 @@ export default function data(fetch, update, setUpdate) {
             variant="contained"
             size="small"
             sx={{ color: "#fff" }}
-            href={course.material}
-            disabled={!course.material}
+            onClick={(e) => {
+              e.preventDefault();
+              openMultiple(course.materials);
+            }}
+            disabled={course.materials.length < 1}
           >
             Course Material
           </Button>

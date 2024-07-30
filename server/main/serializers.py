@@ -1,6 +1,6 @@
 # serializers.py
 from rest_framework import serializers
-from .models import CustomUser, Course, Assessment, Grade, Question, FeedBackMessage
+from .models import CustomUser, Course, Assessment, Grade, Question, FeedBackMessage, CourseMaterial
 from django.contrib.auth.hashers import make_password
 
 
@@ -32,9 +32,15 @@ class CustomTokenSerializer(serializers.Serializer):
   token = serializers.CharField(source='key')
   user = UserSerializer()
   
+class CourseMaterialSerializer(serializers.ModelSerializer): 
+  class Meta: 
+    model = CourseMaterial
+    fields = '__all__'
+    
 class CourseSerializer(serializers.ModelSerializer): 
   instructor = UserSerializer()
   students = UserSerializer(many=True)
+  materials = CourseMaterialSerializer(read_only=True, many=True)
   class Meta: 
     model = Course 
     fields = "__all__"

@@ -128,7 +128,7 @@ class StudentViewSet(viewsets.ModelViewSet):
   
   def get_queryset(self):
     course = Course.objects.get(id=self.kwargs.get('pk'))
-    return CustomUser.objects.filter(~Q(sent_messages=None), type="student").filter(sent_messages__course=course).distinct()
+    return CustomUser.objects.filter(sent_messages__course=course, type="student").distinct()
   
   def retrieve(self, request, pk):
     queryset = self.get_queryset()
@@ -141,6 +141,5 @@ class UploadCourseMaterial(APIView):
   def post(self, request, course_id): 
     course = Course.objects.get(id=course_id)
     course_material = request.FILES["course_material"]
-    course.material = course_material
-    course.save()
+    course.materials.create(material=course_material)
     return Response(CourseSerializer(course).data)

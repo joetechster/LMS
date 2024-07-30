@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Grade, Course, Question, Assessment, FeedBackMessage
+from .models import CustomUser, Grade, Course, Question, Assessment, FeedBackMessage, CourseMaterial
 
 # @admin.register(CustomUser)
 # class CustomUserAdmin(admin.ModelAdmin):
@@ -17,3 +17,4 @@ admin.site.register(Course)
 admin.site.register(Question)
 admin.site.register(Assessment)
 admin.site.register(FeedBackMessage)
+admin.site.register(CourseMaterial)
