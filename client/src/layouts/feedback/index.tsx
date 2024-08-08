@@ -45,7 +45,6 @@ export default function Feedback() {
     fetch_authenticated(`student/${course}`, {})
       .then((res) => res.json())
       .then((students) => {
-        console.log(students);
         setStudents(students);
       });
   }, [course]);
@@ -76,7 +75,7 @@ export default function Feedback() {
       body: JSON.stringify({
         message: message,
         course: course,
-        sent_to: user.type === "instructor" ? student : 0,
+        sent_to: user.type === "instructor" ? student : 1,
       }),
     });
     const newMessage = await res.json();
