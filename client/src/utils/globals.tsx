@@ -3,9 +3,10 @@ import MDBox from "components/MDBox";
 import { getUser } from "./auth";
 import MDTypography from "components/MDTypography";
 import { Avatar, Button } from "@mui/material";
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
+
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 export const baseUrl = "http://127.0.0.1:8000/";
 
